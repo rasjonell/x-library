@@ -19,7 +19,7 @@ To start your Phoenix server:
 
 To use the Books API you first need to authenticate:
 
-```json
+```
 POST    /api/users/signup   {
                               "user": {
                                 "email": "valid@email.com",
