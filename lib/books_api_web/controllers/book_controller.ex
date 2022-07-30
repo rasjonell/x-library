@@ -40,4 +40,13 @@ defmodule BooksApiWeb.BookController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def read(conn, %{"book_id" => id}) do
+    book = Library.get_book!(id)
+    user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, %Book{} = book} <- Library.read_book(book, user) do
+      render(conn, "show.json", book: book)
+    end
+  end
 end

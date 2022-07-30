@@ -21,10 +21,12 @@ defmodule BooksApiWeb.Router do
     pipe_through [:api, :auth]
 
     # Library
-    resources "/books", BookController, except: [:new, :edit]
+    resources "/books", BookController, except: [:new, :edit] do
+      post "/read", BookController, :read
+    end
 
     # Authentication
-    post "/signout", UserController, :sign_out
+    post "/users/signout", UserController, :sign_out
   end
 
   # Enables LiveDashboard only for development
