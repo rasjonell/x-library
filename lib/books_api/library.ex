@@ -18,7 +18,9 @@ defmodule BooksApi.Library do
 
   """
   def list_books do
-    Repo.all(Book)
+    Book
+    |> Repo.all()
+    |> Repo.preload([:read_by])
   end
 
   @doc """

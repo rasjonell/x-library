@@ -1,6 +1,7 @@
 defmodule BooksApi.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias BooksApi.Library
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -9,6 +10,8 @@ defmodule BooksApi.Accounts.User do
     field :encrypted_password, :string
 
     field :password, :string, virtual: true
+
+    many_to_many :books_read, Library.Book, join_through: "users_read_books"
 
     timestamps()
   end
