@@ -23,4 +23,15 @@ defmodule BooksApiWeb.UserController do
       |> render("user.json", %{user: user, token: token})
     end
   end
+
+  def sign_out(conn, _opts) do
+    {:ok, _claims} =
+      conn
+      |> Guardian.Plug.current_token()
+      |> Guardian.revoke()
+
+    conn
+    |> put_status(:ok)
+    |> json(%{success: true})
+  end
 end

@@ -22,6 +22,9 @@ defmodule BooksApiWeb.Router do
 
     # Library
     resources "/books", BookController, except: [:new, :edit]
+
+    # Authentication
+    post "/signout", UserController, :sign_out
   end
 
   # Enables LiveDashboard only for development
