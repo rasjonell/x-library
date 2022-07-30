@@ -61,6 +61,7 @@ POST        /api/books
 PATCH       /api/books/:id          
 PUT         /api/books/:id          
 DELETE      /api/books/:id
+POST        /api/book/:book_id/read   # Marks the book as read
 ```
 
 
