@@ -1,0 +1,338 @@
+openapi: 3.0.3
+
+info:
+  title: X-Library API Docs
+  description: Library API for book management
+  version: 0.0.1
+
+externalDocs:
+  description: "X-Library Source Code"
+  url: https://github.com/rasjonell/x-library
+
+servers:
+  - url: http://localhost:4000
+    description: Local X-Library Elixir/Phoenix Server
+
+paths:
+  "/api/users/signup":
+    post:
+      tags: ["Authentication"]
+      summary: Creates a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user_req"
+      responses:
+        "201":
+          description: User was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user_resp"
+
+  "/api/users/signin":
+    post:
+      tags: ["Authentication"]
+      summary: Logs the user in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user_req"
+      responses:
+        "201":
+          description: User was signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user_resp"
+
+  "/api/users/signout":
+    post:
+      security:
+        - bearerAuth: []
+      tags: ["Authentication"]
+      summary: Deletes current session
+      responses:
+        "200":
+          description: User was signed out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: request status
+
+  "/api/books":
+    get:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Returns all books.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/book"
+
+    post:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Create a new book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/book_req"
+      responses:
+        "200":
+          description: Book was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+  "/api/books/{id}":
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the book
+        schema:
+          type: string
+
+    get:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Get a single book
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+    put:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Update a single book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/book_req"
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+    patch:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Update a single book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/book_req"
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+    delete:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Delete a book
+      responses:
+        "204":
+          description: Successfully deleted
+
+  "/api/books/{id}/read":
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the book
+        schema:
+          type: string
+    post:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Mark book as read
+      responses:
+        "200":
+          description: Successfully marked book as read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+  "/api/books/{id}/review":
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the book
+        schema:
+          type: string
+
+    post:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Add a review for a book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/review"
+      responses:
+        "201":
+          description: Successfully added a review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
+components:
+  schemas:
+    book_resp:
+      type: object
+
+      properties:
+        data:
+          $ref: "#/components/schemas/book"
+
+    books_resp:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/book"
+
+    book_req:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the book
+        price:
+          type: number
+          description: Price of the book
+        isbn:
+          type: string
+          description: ISBN number of the book
+        description:
+          type: string
+          description: Description of the book
+        authors:
+          type: array
+          items:
+            type: string
+
+    book:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the book
+        title:
+          type: string
+          description: Title of the book
+        rating:
+          type: number
+          description: Average rating of the book
+        price:
+          type: number
+          description: Price of the book
+        isbn:
+          type: string
+          description: ISBN number of the book
+        description:
+          type: string
+          description: Description of the book
+        authors:
+          type: array
+          items:
+            type: string
+        read_by:
+          type: array
+          items:
+            $ref: "#/components/schemas/user"
+        reviews:
+          type: array
+          items:
+            $ref: "#/components/schemas/review"
+
+    user_req:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of the user
+        password:
+          type: string
+          description: Password of the user
+
+    user_resp:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of the user
+        token:
+          type: string
+          description: JWT of the created session
+
+    user:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of the user
+
+    review:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Content of the review
+        rating:
+          type: integer
+          description: Rating of the review
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
