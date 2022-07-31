@@ -15,55 +15,7 @@ To start your Phoenix server:
 
 ## Usage
 
-### Auth
-
-To use the Books API you first need to authenticate:
-
-```
-POST    /api/users/signup   {
-                              "user": {
-                                "email": "valid@email.com",
-                                "password": "strong_password"
-                              }
-                            }
-
-
-POST    /api/users/signin   {
-                              "email": "your@email.com",
-                              "password": "your password"                          
-                            }
-```
-
-Both of these actions return `token` which should be used as auth headers:
-`Authorization: Bearer {{token}}`
-
-### Books
-
-There is a basic CRUD API available.
-
-This is the required json body when creating/updating books.
-```json
-{
-  "book": {
-      "title": "Book Title",
-      "isbn": "0123456789",
-      "description": "Some Book Description",
-      "price": 0.0,
-      "authors": ["Karl Marx", "Friedrich Engels"]
-    }
-}
-```
-
-```
-GET         /api/books              
-GET         /api/books/:id          
-POST        /api/books              
-PATCH       /api/books/:id          
-PUT         /api/books/:id          
-DELETE      /api/books/:id
-POST        /api/book/:book_id/read   # Marks the book as read
-```
-
+Check out the OpenAPI Docs: https://rasjonell.github.io/x-library/
 
 
 ## Learn more
