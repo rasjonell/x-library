@@ -2,8 +2,8 @@ defmodule BooksApi.Library.Book do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias BooksApi.Library.Book
   alias BooksApi.Accounts.User
+  alias BooksApi.Library.Review
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -13,8 +13,11 @@ defmodule BooksApi.Library.Book do
     field :isbn, :string
     field :price, :float
     field :title, :string
+    field :rating, :float
 
     many_to_many :read_by, User, join_through: "users_read_books"
+
+    has_many :reviews, Review
 
     timestamps()
   end
@@ -22,12 +25,8 @@ defmodule BooksApi.Library.Book do
   @doc false
   def changeset(book, attrs) do
     book
-    |> cast(attrs, [:title, :isbn, :description, :price, :authors])
+    |> cast(attrs, [:title, :isbn, :description, :price, :authors, :rating])
     |> validate_required([:title, :isbn, :description, :price, :authors])
     |> unique_constraint(:isbn)
-  end
-
-  def read_by_count(%Book{read_by: read_by}) do
-    length(read_by)
   end
 end

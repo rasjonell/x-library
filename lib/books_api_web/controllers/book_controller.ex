@@ -15,7 +15,6 @@ defmodule BooksApiWeb.BookController do
     with {:ok, %Book{} = book} <- Library.create_book(book_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.book_path(conn, :show, book))
       |> render("show.json", book: book)
     end
   end
@@ -47,6 +46,16 @@ defmodule BooksApiWeb.BookController do
 
     with {:ok, %Book{} = book} <- Library.read_book(book, user) do
       render(conn, "show.json", book: book)
+    end
+  end
+
+  def add_review(conn, %{"review" => review_params, "book_id" => book_id}) do
+    user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, %Book{} = book} <- Library.add_review(book_id, user.id, review_params) do
+      conn
+      |> put_status(:created)
+      |> render("show.json", book: book)
     end
   end
 end

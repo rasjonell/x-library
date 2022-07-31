@@ -2,9 +2,8 @@ defmodule BooksApiWeb.BookView do
   use BooksApiWeb, :view
   alias BooksApiWeb.BookView
 
-  @fields [:id, :title, :isbn, :description, :price, :authors]
-  @relationships [read_by: BooksApiWeb.UserView]
-  @custom_fields [:read_by_count]
+  @fields [:id, :title, :isbn, :description, :price, :authors, :rating]
+  @relationships [read_by: BooksApiWeb.UserView, reviews: BooksApiWeb.ReviewView]
 
   def render("index.json", %{books: books}) do
     %{data: render_many(books, BookView, "book.json")}
@@ -15,10 +14,6 @@ defmodule BooksApiWeb.BookView do
   end
 
   def render("book.json", %{book: book}) do
-    render_json(book, @fields, @custom_fields, @relationships)
-  end
-
-  def render_field(:read_by_count, book) do
-    BooksApi.Library.Book.read_by_count(book)
+    render_json(book, @fields, [], @relationships)
   end
 end

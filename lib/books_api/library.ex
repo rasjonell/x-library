@@ -3,6 +3,8 @@ defmodule BooksApi.Library do
   The Library context.
   """
 
+  alias BooksApi.Library
+
   import Ecto.Query, warn: false
   alias BooksApi.Repo
 
@@ -12,13 +14,13 @@ defmodule BooksApi.Library do
   def list_books do
     Book
     |> Repo.all()
-    |> Repo.preload([:read_by])
+    |> Repo.preload([:read_by, :reviews])
   end
 
   def get_book!(id) do
     Book
     |> Repo.get!(id)
-    |> Repo.preload([:read_by])
+    |> Repo.preload([:read_by, :reviews])
   end
 
   def create_book(attrs \\ %{}) do
@@ -46,5 +48,58 @@ defmodule BooksApi.Library do
     |> Book.changeset(%{})
     |> Ecto.Changeset.put_assoc(:read_by, [user])
     |> Repo.update()
+  end
+
+  alias BooksApi.Library.Review
+
+  def list_reviews do
+    Repo.all(Review)
+  end
+
+  def get_review!(id), do: Repo.get!(Review, id)
+
+  def create_review(attrs \\ %{}) do
+    %Review{}
+    |> Review.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_review(%Review{} = review, attrs) do
+    review
+    |> Review.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_review(%Review{} = review) do
+    Repo.delete(review)
+  end
+
+  def change_review(%Review{} = review, attrs \\ %{}) do
+    Review.changeset(review, attrs)
+  end
+
+  def add_review(book_id, user_id, review_params) do
+    case review_params
+         |> Map.put("book_id", book_id)
+         |> Map.put("user_id", user_id)
+         |> Library.create_review() do
+      {:ok, _review} ->
+        update_ratings(book_id)
+
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
+  defp update_ratings(book_id) do
+    book = get_book!(book_id)
+
+    ratings = Enum.map(book.reviews, fn %{rating: rating} -> rating end)
+
+    update_book(book, %{rating: get_average(ratings)})
+  end
+
+  defp get_average(ratings) do
+    Enum.sum(ratings) / length(ratings)
   end
 end

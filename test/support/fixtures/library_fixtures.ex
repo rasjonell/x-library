@@ -26,4 +26,19 @@ defmodule BooksApi.LibraryFixtures do
 
     book
   end
+
+  @doc """
+  Generate a review.
+  """
+  def review_fixture(attrs \\ %{}) do
+    {:ok, review} =
+      attrs
+      |> Enum.into(%{
+        content: "some content",
+        rating: 42
+      })
+      |> BooksApi.Library.create_review()
+
+    review
+  end
 end

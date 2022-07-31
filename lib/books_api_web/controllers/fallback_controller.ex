@@ -14,10 +14,10 @@ defmodule BooksApiWeb.FallbackController do
   end
 
   # This clause will handle invalid resource data.
-  def call(conn, {:error, %Ecto.Changeset{}}) do
+  def call(conn, {:error, %Ecto.Changeset{} = error}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> render(BooksApiWeb.ErrorView, :"422")
+    |> render(BooksApiWeb.ErrorView, :"422", error: error)
   end
 
   # This clause will handle unauthorized requests
