@@ -1,6 +1,6 @@
-# Books API
+# X-Library
 
-Elixir/Phoenix Books CRUD API with JWT Authentication
+Elixir/Phoenix GoodReads API clone
 
 
 ## Setup
