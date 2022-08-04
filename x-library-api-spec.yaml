@@ -186,7 +186,7 @@ paths:
     post:
       security:
         - bearerAuth: []
-      tags: ["Books"]
+      tags: ["Library", "Books"]
       summary: Mark book as read
       responses:
         "200":
@@ -208,7 +208,7 @@ paths:
     post:
       security:
         - bearerAuth: []
-      tags: ["Books"]
+      tags: ["Library", "Books"]
       summary: Add a review for a book
       requestBody:
         required: true
@@ -240,12 +240,47 @@ paths:
           type: string
 
     delete:
+      tags: ["Library", "Books"]
       security:
         - bearerAuth: []
       summary: Remove a review for a book
       responses:
         "204":
           description: Successfully removed the review
+
+  "/api/users/reviews":
+    get:
+      tags: ["Library"]
+      security:
+        - bearerAuth: []
+      summary: Lists all reviews of the currently signed in user
+      responses:
+        "200":
+          description: List of reviews of the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/review_resp"
+
+  "/api/users/{id}/reviews":
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the user
+        schema:
+          type: string
+
+    get:
+      tags: ["Library"]
+      summary: Lists all reviews of the specified user
+      responses:
+        "200":
+          description: List of reviews of the given user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/review_resp"
 
 components:
   schemas:
@@ -357,15 +392,32 @@ components:
         review:
           $ref: "#/components/schemas/review"
 
+    review_resp:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/review"
+
     review:
       type: object
       properties:
+        id:
+          type: string
+          description: ID of the reivew
         content:
           type: string
           description: Content of the review
         rating:
           type: integer
           description: Rating of the review
+        book_id:
+          type: string
+          description: ID of the book for the review
+        user_id:
+          type: string
+          description: ID of the user who left the review
   securitySchemes:
     bearerAuth:
       type: http

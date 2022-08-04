@@ -4,6 +4,7 @@ defmodule BooksApi.Library do
   """
 
   alias BooksApi.Library
+  alias BooksApi.Accounts
 
   import Ecto.Query, warn: false
   alias BooksApi.Repo
@@ -52,8 +53,10 @@ defmodule BooksApi.Library do
 
   alias BooksApi.Library.Review
 
-  def list_reviews do
-    Repo.all(Review)
+  def list_reviews(user_id) do
+    Accounts.get_user!(user_id)
+    |> Repo.preload([:reviews])
+    |> Map.get(:reviews)
   end
 
   def get_review!(id), do: Repo.get!(Review, id)

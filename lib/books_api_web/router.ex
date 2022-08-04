@@ -15,12 +15,17 @@ defmodule BooksApiWeb.Router do
     # Accounts
     post "/users/signup", UserController, :sign_up
     post "/users/signin", UserController, :sign_in
+
+    # Library
+    get "/users/:id/reviews", ReviewController, :list_user_reviews
   end
 
   scope "/api", BooksApiWeb do
     pipe_through [:api, :auth]
 
     # Library
+    get "/users/reviews", ReviewController, :list_user_reviews
+
     resources "/books", BookController, except: [:new, :edit] do
       post "/read", BookController, :read
       post "/review", BookController, :add_review
