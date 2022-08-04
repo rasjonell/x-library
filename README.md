@@ -1,7 +1,23 @@
-# X-Library
+# X Library
 
-Elixir/Phoenix GoodReads API clone
+Self-Hosted, Open, and Editable Library Management Platform 
 
+![Banner Photo](./x-library.png)
+
+
+# Ideas To Implement Next
+
+- [ ] Federated Network of Book Reviews/Recommendations
+  - Ability for peers to sync with other peers
+  - Social networking capabilites(follow users from other instances(ActivityPub?))
+
+- [ ] RSS Feed for reviews
+  - Use ISBN database services to link the book inside the review to an external source
+
+- [ ] Statistics
+  - GoodReads style statistics for both books and users
+
+# Development
 
 ## Setup
 
@@ -11,7 +27,6 @@ To start your Phoenix server:
   * Install dependencies with `mix deps.get`
   * Create, migrate, and seed your database with `mix ecto.setup`
   * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
 
 ## Usage
 
