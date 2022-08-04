@@ -12,7 +12,11 @@ defmodule BooksApi.Accounts do
     Repo.all(User)
   end
 
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    User
+    |> Repo.get!(id)
+    |> Repo.preload([:books_read, :reviews])
+  end
 
   def get_user_by_email(email) do
     case Repo.get_by(User, email: email) do

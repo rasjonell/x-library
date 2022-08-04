@@ -25,6 +25,8 @@ defmodule BooksApiWeb.Router do
 
     # Library
     get "/users/reviews", ReviewController, :list_user_reviews
+    get "/users/me", UserController, :get_user
+    get "/users/:id", UserController, :get_user
 
     resources "/books", BookController, except: [:new, :edit] do
       post "/read", BookController, :read

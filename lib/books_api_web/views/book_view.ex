@@ -1,9 +1,9 @@
 defmodule BooksApiWeb.BookView do
   use BooksApiWeb, :view
-  alias BooksApiWeb.BookView
+  alias BooksApiWeb.{BookView, UserView, ReviewView}
 
   @fields [:id, :title, :isbn, :description, :price, :authors, :rating]
-  @relationships [read_by: BooksApiWeb.UserView, reviews: BooksApiWeb.ReviewView]
+  @relationships [read_by: UserView, reviews: ReviewView]
 
   def render("index.json", %{books: books}) do
     %{data: render_many(books, BookView, "book.json")}

@@ -34,4 +34,18 @@ defmodule BooksApiWeb.UserController do
     |> put_status(:ok)
     |> json(%{success: true})
   end
+
+  def get_user(conn, %{"id" => user_id}) do
+    user = Accounts.get_user!(user_id)
+    render(conn, "user.json", user: user)
+  end
+
+  def get_user(conn, _params) do
+    user =
+      conn
+      |> Guardian.Plug.current_resource()
+      |> BooksApi.Repo.preload([:books_read, :reviews])
+
+    render(conn, "user.json", user: user)
+  end
 end
