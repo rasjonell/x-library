@@ -2,7 +2,7 @@ defmodule BooksApiWeb.BookController do
   use BooksApiWeb, :controller
 
   alias BooksApi.Library
-  alias BooksApi.Library.{Book, Review}
+  alias BooksApi.Library.Book
 
   action_fallback BooksApiWeb.FallbackController
 

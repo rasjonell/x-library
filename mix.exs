@@ -48,7 +48,8 @@ defmodule BooksApi.MixProject do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 1.0"},
       {:poison, "~> 5.0"},
-      {:json_view, "~> 0.2.0"}
+      {:json_view, "~> 0.2.0"},
+      {:faker, "~> 0.17"}
     ]
   end
 

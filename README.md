@@ -9,7 +9,7 @@ To start your Phoenix server:
   * Update `dev.exs` config with your database credentials
   * Rename `dev.example_secrets.exs` to `dev.secrets.exs` and follow the examples to setup the authentication secrets.
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
+  * Create, migrate, and seed your database with `mix ecto.setup`
   * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
 
