@@ -70,8 +70,9 @@ defmodule BooksApi.Library do
     |> Repo.update()
   end
 
-  def delete_review(%Review{} = review) do
-    Repo.delete(review)
+  def delete_review(%Review{} = review, book_id) do
+    Repo.delete!(review)
+    update_ratings(book_id)
   end
 
   def change_review(%Review{} = review, attrs \\ %{}) do
@@ -98,6 +99,8 @@ defmodule BooksApi.Library do
 
     update_book(book, %{rating: get_average(ratings)})
   end
+
+  defp get_average([]), do: nil
 
   defp get_average(ratings) do
     Enum.sum(ratings) / length(ratings)

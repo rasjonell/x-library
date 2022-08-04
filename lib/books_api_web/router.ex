@@ -24,6 +24,7 @@ defmodule BooksApiWeb.Router do
     resources "/books", BookController, except: [:new, :edit] do
       post "/read", BookController, :read
       post "/review", BookController, :add_review
+      delete "/review/:review_id", BookController, :remove_review
     end
 
     # Authentication

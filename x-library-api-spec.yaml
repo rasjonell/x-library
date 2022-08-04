@@ -215,7 +215,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/review"
+              $ref: "#/components/schemas/review_req"
       responses:
         "201":
           description: Successfully added a review
@@ -223,6 +223,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/book_resp"
+
+  "/api/books/{book_id}/review/{review_id}":
+    parameters:
+      - name: book_id
+        in: path
+        required: true
+        description: ID of the book
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ID of the review
+        schema:
+          type: string
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Remove a review for a book
+      responses:
+        "204":
+          description: Successfully removed the review
 
 components:
   schemas:
@@ -244,22 +267,25 @@ components:
     book_req:
       type: object
       properties:
-        title:
-          type: string
-          description: Title of the book
-        price:
-          type: number
-          description: Price of the book
-        isbn:
-          type: string
-          description: ISBN number of the book
-        description:
-          type: string
-          description: Description of the book
-        authors:
-          type: array
-          items:
-            type: string
+        book:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the book
+            price:
+              type: number
+              description: Price of the book
+            isbn:
+              type: string
+              description: ISBN number of the book
+            description:
+              type: string
+              description: Description of the book
+            authors:
+              type: array
+              items:
+                type: string
 
     book:
       type: object
@@ -298,12 +324,15 @@ components:
     user_req:
       type: object
       properties:
-        email:
-          type: string
-          description: Email of the user
-        password:
-          type: string
-          description: Password of the user
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+              description: Email of the user
+            password:
+              type: string
+              description: Password of the user
 
     user_resp:
       type: object
@@ -321,6 +350,12 @@ components:
         email:
           type: string
           description: Email of the user
+
+    review_req:
+      type: object
+      properties:
+        review:
+          $ref: "#/components/schemas/review"
 
     review:
       type: object

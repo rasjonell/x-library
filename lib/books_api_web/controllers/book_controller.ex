@@ -2,7 +2,7 @@ defmodule BooksApiWeb.BookController do
   use BooksApiWeb, :controller
 
   alias BooksApi.Library
-  alias BooksApi.Library.Book
+  alias BooksApi.Library.{Book, Review}
 
   action_fallback BooksApiWeb.FallbackController
 
@@ -56,6 +56,14 @@ defmodule BooksApiWeb.BookController do
       conn
       |> put_status(:created)
       |> render("show.json", book: book)
+    end
+  end
+
+  def remove_review(conn, %{"review_id" => review_id, "book_id" => book_id}) do
+    review = Library.get_review!(review_id)
+
+    with {:ok, %Book{}} <- Library.delete_review(review, book_id) do
+      send_resp(conn, :no_content, "")
     end
   end
 end

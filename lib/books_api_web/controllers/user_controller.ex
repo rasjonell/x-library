@@ -16,7 +16,7 @@ defmodule BooksApiWeb.UserController do
     end
   end
 
-  def sign_in(conn, %{"email" => email, "password" => password}) do
+  def sign_in(conn, %{"user" => %{"email" => email, "password" => password}}) do
     with {:ok, user, token} <- Guardian.authenticate(email, password) do
       conn
       |> put_status(:created)

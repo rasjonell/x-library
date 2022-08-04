@@ -23,3 +23,5 @@ erl_crash.dump
 books_api-*.tar
 
 /config/*.secrets.exs
+
+/.vscode/
