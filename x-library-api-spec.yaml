@@ -306,7 +306,7 @@ paths:
 
   "/api/users/me":
     get:
-      summary: Get the Prifle of the currently signed in user
+      summary: Get the Profile of the currently signed in user
       tags: ["Library"]
       security:
         - bearerAuth: []
