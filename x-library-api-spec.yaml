@@ -74,19 +74,26 @@ paths:
         - bearerAuth: []
       tags: ["Books"]
       summary: Returns all books.
+      parameters:
+        - name: page
+          in: query
+          description: Pagination index
+          required: false
+          schema:
+            type: number
+        - name: page_size
+          in: query
+          description: Number of resources in a single page
+          required: false
+          schema:
+            type: number
       responses:
         "200":
           description: Successful response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/book"
-
+                $ref: "#/components/schemas/book_paginated"
     post:
       security:
         - bearerAuth: []
@@ -391,6 +398,30 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/review"
+
+    book_paginated:
+      allOf:
+        - $ref: "#/components/schemas/book_resp"
+        - $ref: "#/components/schemas/pagination"
+
+    pagination:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            page_number:
+              type: number
+              description: Current page number
+            page_size:
+              type: number
+              description: Current or given page size
+            total_entries:
+              type: number
+              description: Total count of the requested resource
+            total_pages:
+              type: number
+              description: Available pages
 
     user_req:
       type: object

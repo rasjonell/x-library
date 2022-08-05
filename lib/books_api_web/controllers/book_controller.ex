@@ -6,9 +6,9 @@ defmodule BooksApiWeb.BookController do
 
   action_fallback BooksApiWeb.FallbackController
 
-  def index(conn, _params) do
-    books = Library.list_books()
-    render(conn, "index.json", books: books)
+  def index(conn, params) do
+    page = Library.list_books(params)
+    render(conn, "index.json", books: page.entries, page: page)
   end
 
   def create(conn, %{"book" => book_params}) do

@@ -12,10 +12,10 @@ defmodule BooksApi.Library do
   alias BooksApi.Library.Book
   alias BooksApi.Accounts.User
 
-  def list_books do
+  def list_books(params) do
     Book
-    |> Repo.all()
-    |> Repo.preload([:read_by, :reviews])
+    |> preload([:read_by, :reviews])
+    |> Repo.paginate(params)
   end
 
   def get_book!(id) do

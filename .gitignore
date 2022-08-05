@@ -25,3 +25,5 @@ books_api-*.tar
 /config/*.secrets.exs
 
 /.vscode/
+
+/.DS_Store
