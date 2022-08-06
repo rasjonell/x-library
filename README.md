@@ -17,7 +17,7 @@ Self-Hosted, Open, and Editable Library Management Platform
 - [ ] Statistics
   - GoodReads style statistics for both books and users
 
-- [ ] Add a books from an external source
+- [ ] Add books from an external source
   - use OpenLibrary or a similar service to fetch books with the ISBN number
 
 
