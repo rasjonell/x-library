@@ -9,7 +9,7 @@ Self-Hosted, Open, and Editable Library Management Platform
 
 - [ ] Federated Network of Book Reviews/Recommendations
   - Ability for peers to sync with other peers
-  - Social networking capabilites(follow users from other instances(ActivityPub?))
+  - Social networking capabilities(follow users from other instances(ActivityPub?))
 
 - [ ] RSS Feed for reviews
   - Use ISBN database services to link the book inside the review to an external source
@@ -17,9 +17,12 @@ Self-Hosted, Open, and Editable Library Management Platform
 - [ ] Statistics
   - GoodReads style statistics for both books and users
 
-- [ ] Add books from an external source
+- [x] Add books from an external source
   - use OpenLibrary or a similar service to fetch books with the ISBN number
 
+# Note for Clients
+
+The API now allows book creation/addition with only the ISBN number, thus, the [OpenLibrary API](https://openlibrary.org/developers/api) can be leveraged  in your client to search for books, authors, genres, etc. Then use the retrieved ISBN to add the book to the X Library platform.
 
 # Development
 
