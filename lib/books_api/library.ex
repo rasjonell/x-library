@@ -12,6 +12,8 @@ defmodule BooksApi.Library do
   alias BooksApi.Library.Book
   alias BooksApi.Accounts.User
 
+  @open_lib_url "https://openlibrary.org"
+
   def list_books(params) do
     Book
     |> preload([:read_by, :reviews])
@@ -28,6 +30,31 @@ defmodule BooksApi.Library do
     %Book{}
     |> Book.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_book_with_isbn(isbn) do
+    case HTTPoison.get(isbn_url(isbn), [], follow_redirect: true) do
+      {:ok, %{status_code: 200, body: body}} ->
+        decoded_body = Poison.decode!(body)
+
+        %{status_code: 200, body: author_body} = HTTPoison.get!(author_url(decoded_body))
+
+        decoded_author = Poison.decode!(author_body)
+
+        book_params = %{
+          isbn: isbn,
+          rating: nil,
+          title: decoded_body["title"],
+          price: Faker.Commerce.price(),
+          authors: [decoded_author["name"]],
+          description: decoded_body["subtitle"]
+        }
+
+        create_book(book_params)
+
+      {:ok, %{status_code: 404}} ->
+        {:error, :not_found}
+    end
   end
 
   def update_book(%Book{} = book, attrs) do
@@ -107,5 +134,12 @@ defmodule BooksApi.Library do
 
   defp get_average(ratings) do
     Enum.sum(ratings) / length(ratings)
+  end
+
+  defp isbn_url(isbn), do: @open_lib_url <> "/isbn/" <> isbn <> ".json"
+
+  defp author_url(decoded_body) do
+    key = decoded_body["authors"] |> List.first() |> Map.get("key")
+    @open_lib_url <> key <> ".json"
   end
 end

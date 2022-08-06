@@ -19,6 +19,14 @@ defmodule BooksApiWeb.ErrorView do
     }
   end
 
+  def template_not_found(template, _error) do
+    %{
+      errors: %{
+        detail: Phoenix.Controller.status_message_from_template(template)
+      }
+    }
+  end
+
   defp get_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Regex.replace(~r"%{(\w+)}", msg, fn _, key ->

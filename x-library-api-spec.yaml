@@ -113,6 +113,28 @@ paths:
               schema:
                 $ref: "#/components/schemas/book_resp"
 
+  "/api/books/{isbn}":
+    parameters:
+      - name: isbn
+        in: path
+        required: true
+        description: ISBN number of the book
+        schema:
+          type: string
+
+    post:
+      security:
+        - bearerAuth: []
+      tags: ["Books"]
+      summary: Create a new book from ISBN number
+      responses:
+        "200":
+          description: Book was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/book_resp"
+
   "/api/books/{id}":
     parameters:
       - name: id

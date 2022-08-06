@@ -19,6 +19,14 @@ defmodule BooksApiWeb.BookController do
     end
   end
 
+  def create_with_isbn(conn, %{"isbn" => isbn}) do
+    with {:ok, %Book{} = book} <- Library.create_book_with_isbn(isbn) do
+      conn
+      |> put_status(:created)
+      |> render("show.json", book: book)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     book = Library.get_book!(id)
     render(conn, "show.json", book: book)

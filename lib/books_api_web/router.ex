@@ -34,6 +34,8 @@ defmodule BooksApiWeb.Router do
       delete "/review/:review_id", BookController, :remove_review
     end
 
+    post "/books/:isbn", BookController, :create_with_isbn
+
     # Authentication
     post "/users/signout", UserController, :sign_out
   end

@@ -50,7 +50,8 @@ defmodule BooksApi.MixProject do
       {:poison, "~> 5.0"},
       {:json_view, "~> 0.2.0"},
       {:faker, "~> 0.17"},
-      {:scrivener_ecto, "~> 2.0"}
+      {:scrivener_ecto, "~> 2.0"},
+      {:httpoison, "~> 1.8"}
     ]
   end
 
