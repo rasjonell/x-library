@@ -9,10 +9,13 @@ defmodule BooksApiWeb.UserController do
 
   def sign_up(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params),
-         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+         {:ok, access_token, _claims} <-
+           Guardian.encode_and_sign(user, %{}, token_type: "access"),
+         {:ok, refresh_token, _claims} <-
+           Guardian.encode_and_sign(user, %{}, token_type: "refresh") do
       conn
       |> put_status(:created)
-      |> render("user.json", user: user, token: token)
+      |> render("user.json", user: user, token: access_token, refresh: refresh_token)
     end
   end
 
