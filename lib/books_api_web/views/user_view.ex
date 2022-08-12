@@ -7,7 +7,8 @@ defmodule BooksApiWeb.UserView do
   @relationships [books_read: BookView, reviews: ReviewView]
 
   def render("user.json", %{user: user, token: token}) do
-    render_json(%{user: user, token: token}, [:token | @fields], [], @relationships)
+    data = Map.put_new(user, :token, token)
+    render_json(data, [:token | @fields], [], @relationships)
   end
 
   def render("user.json", %{user: user}) do

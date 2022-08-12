@@ -51,7 +51,8 @@ defmodule BooksApi.MixProject do
       {:json_view, "~> 0.2.0"},
       {:faker, "~> 0.17"},
       {:scrivener_ecto, "~> 2.0"},
-      {:httpoison, "~> 1.8"}
+      {:httpoison, "~> 1.8"},
+      {:guardian_db, "~> 2.0"}
     ]
   end
 

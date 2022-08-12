@@ -15,9 +15,9 @@ defmodule BooksApi.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: BooksApi.PubSub},
       # Start the Endpoint (http/https)
-      BooksApiWeb.Endpoint
-      # Start a worker by calling: BooksApi.Worker.start_link(arg)
-      # {BooksApi.Worker, arg}
+      BooksApiWeb.Endpoint,
+      # Start The GuardianDB system
+      {Guardian.DB.Token.SweeperServer, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

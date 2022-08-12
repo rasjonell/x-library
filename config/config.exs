@@ -18,6 +18,11 @@ config :books_api, BooksApiWeb.Endpoint,
   pubsub_server: BooksApi.PubSub,
   live_view: [signing_salt: "pBpLKS84"]
 
+config :guardian, Guardian.DB,
+  repo: BooksApi.Repo,
+  schema_name: "guardian_tokens",
+  sweep_interval: 60
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
