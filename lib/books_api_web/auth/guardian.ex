@@ -3,6 +3,10 @@ defmodule BooksApiWeb.Auth.Guardian do
 
   alias BooksApi.Accounts
 
+  def subject_for_token({:ok, %Accounts.User{} = user}, claims) do
+    subject_for_token(user, claims)
+  end
+
   def subject_for_token(user, _claims) do
     sub = to_string(user.id)
 
@@ -11,7 +15,7 @@ defmodule BooksApiWeb.Auth.Guardian do
 
   def resource_from_claims(claims) do
     id = claims["sub"]
-    resource = Accounts.get_user!(id)
+    resource = BooksApi.Repo.get!(Accounts.User, id)
 
     {:ok, resource}
   end
@@ -29,8 +33,14 @@ defmodule BooksApiWeb.Auth.Guardian do
   end
 
   def create_token(user) do
-    {:ok, token, _claims} = encode_and_sign(user, %{}, token_type: "access")
-    {:ok, user, token}
+    {:ok, access_token, _claims} = encode_and_sign(user, %{}, token_type: "access")
+    {:ok, refresh_token, _claims} = encode_and_sign(user, %{}, token_type: "refresh")
+    {:ok, user, access_token, refresh_token}
+  end
+
+  def refresh_token(user, token) do
+    {:ok, _claims} = decode_and_verify(token)
+    create_token(user)
   end
 
   # GuardianDB Hooks

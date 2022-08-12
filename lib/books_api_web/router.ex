@@ -15,15 +15,14 @@ defmodule BooksApiWeb.Router do
     # Accounts
     post "/users/signup", UserController, :sign_up
     post "/users/signin", UserController, :sign_in
-
-    # Library
-    get "/users/:id/reviews", ReviewController, :list_user_reviews
+    post "/users/refresh", UserController, :refresh
   end
 
   scope "/api", BooksApiWeb do
     pipe_through [:api, :auth]
 
     # Library
+    get "/users/:id/reviews", ReviewController, :list_user_reviews
     get "/users/reviews", ReviewController, :list_user_reviews
     get "/users/me", UserController, :get_user
     get "/users/:id", UserController, :get_user

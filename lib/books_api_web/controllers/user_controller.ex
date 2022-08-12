@@ -17,10 +17,10 @@ defmodule BooksApiWeb.UserController do
   end
 
   def sign_in(conn, %{"user" => %{"email" => email, "password" => password}}) do
-    with {:ok, user, token} <- Guardian.authenticate(email, password) do
+    with {:ok, user, access_token, refresh_token} <- Guardian.authenticate(email, password) do
       conn
       |> put_status(:created)
-      |> render("user.json", %{user: user, token: token})
+      |> render("user.json", %{user: user, token: access_token, refresh: refresh_token})
     end
   end
 
@@ -33,6 +33,18 @@ defmodule BooksApiWeb.UserController do
     conn
     |> put_status(:ok)
     |> json(%{success: true})
+  end
+
+  def refresh(conn, %{"refresh" => refresh_token}) do
+    {:ok, claims} = Guardian.decode_and_verify(refresh_token)
+    {:ok, current_user} = Guardian.resource_from_claims(claims)
+
+    with {:ok, user, access_token, refresh_token} <-
+           Guardian.refresh_token(current_user, refresh_token) do
+      conn
+      |> put_status(:created)
+      |> render("user.json", %{user: user, token: access_token, refresh: refresh_token})
+    end
   end
 
   def get_user(conn, %{"id" => user_id}) do
