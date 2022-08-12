@@ -15,7 +15,7 @@ defmodule BooksApiWeb.Auth.Guardian do
 
   def resource_from_claims(claims) do
     id = claims["sub"]
-    resource = BooksApi.Repo.get!(Accounts.User, id)
+    resource = Accounts.get_user!(id)
 
     {:ok, resource}
   end

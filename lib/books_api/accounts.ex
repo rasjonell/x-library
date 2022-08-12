@@ -19,7 +19,12 @@ defmodule BooksApi.Accounts do
   end
 
   def get_user_by_email(email) do
-    case Repo.get_by(User, email: email) do
+    preloaded_user =
+      User
+      |> Repo.get_by(email: email)
+      |> Repo.preload([:books_read, :reviews])
+
+    case preloaded_user do
       nil ->
         {:error, :not_found}
 
