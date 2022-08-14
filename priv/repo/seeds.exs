@@ -167,7 +167,7 @@ books = [
 ]
 
 {:ok, %Accounts.User{} = user} =
-  Accounts.create_user(%{name: "Test User", email: "test@example.com", password: "strong_pass"})
+  Accounts.create_user(%{name: "Test User", bio: "I'm a test user created via seed" email: "test@example.com", password: "strong_pass"})
 
 add_books = fn book_params ->
   {:ok, %Library.Book{} = book} =

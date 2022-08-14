@@ -7,6 +7,7 @@ defmodule BooksApi.Accounts.User do
   @foreign_key_type :binary_id
   schema "users" do
     field :name, :string
+    field :bio, :string
     field :email, :string
     field :encrypted_password, :string
 
@@ -22,11 +23,12 @@ defmodule BooksApi.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :password])
-    |> validate_required([:name, :email, :password])
+    |> cast(attrs, [:name, :bio, :email, :password])
+    |> validate_required([:name, :bio, :email, :password])
     |> validate_format(:email, ~r/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
     |> validate_length(:password, min: 6)
     |> validate_length(:name, min: 2)
+    |> validate_length(:bio, min: 3, max: 150)
     |> unique_constraint(:email)
     |> put_hashed_password
   end
