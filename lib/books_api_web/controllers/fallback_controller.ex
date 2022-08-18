@@ -26,4 +26,11 @@ defmodule BooksApiWeb.FallbackController do
     |> put_status(:unauthorized)
     |> render(BooksApiWeb.ErrorView, :"401")
   end
+
+  # This clause will handle incorrect email/passwords
+  def call(conn, {:error, :incorrect_credentials}) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(BooksApiWeb.ErrorView, "incorrect_credentials.json")
+  end
 end

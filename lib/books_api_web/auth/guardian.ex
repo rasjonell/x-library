@@ -21,14 +21,18 @@ defmodule BooksApiWeb.Auth.Guardian do
   end
 
   def authenticate(email, password) do
-    with {:ok, user} <- Accounts.get_user_by_email(email) do
-      case Comeonin.Bcrypt.checkpw(password, user.encrypted_password) do
-        true ->
-          create_token(user)
+    case Accounts.get_user_by_email(email) do
+      {:ok, user} ->
+        case Comeonin.Bcrypt.checkpw(password, user.encrypted_password) do
+          true ->
+            create_token(user)
 
-        false ->
-          {:error, :unauthorized}
-      end
+          false ->
+            {:error, :incorrect_credentials}
+        end
+
+      _ ->
+        {:error, :incorrect_credentials}
     end
   end
 

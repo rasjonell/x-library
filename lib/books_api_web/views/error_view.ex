@@ -27,6 +27,14 @@ defmodule BooksApiWeb.ErrorView do
     }
   end
 
+  def render("incorrect_credentials.json", _) do
+    %{
+      errors: %{
+        detail: "Incorrect email or password"
+      }
+    }
+  end
+
   defp get_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Regex.replace(~r"%{(\w+)}", msg, fn _, key ->
