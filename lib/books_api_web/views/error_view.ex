@@ -30,7 +30,9 @@ defmodule BooksApiWeb.ErrorView do
   def render("incorrect_credentials.json", _) do
     %{
       errors: %{
-        detail: "Incorrect email or password"
+        error: %{
+          password: "Incorrect email or password"
+        }
       }
     }
   end
