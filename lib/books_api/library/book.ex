@@ -11,7 +11,6 @@ defmodule BooksApi.Library.Book do
     field :authors, {:array, :string}
     field :description, :string
     field :isbn, :string
-    field :price, :float
     field :title, :string
     field :rating, :float
 
@@ -25,8 +24,8 @@ defmodule BooksApi.Library.Book do
   @doc false
   def changeset(book, attrs) do
     book
-    |> cast(attrs, [:title, :isbn, :description, :price, :authors, :rating])
-    |> validate_required([:title, :isbn, :description, :price, :authors])
+    |> cast(attrs, [:title, :isbn, :description, :authors, :rating])
+    |> validate_required([:title, :isbn, :description, :authors])
     |> unique_constraint(:isbn)
   end
 end

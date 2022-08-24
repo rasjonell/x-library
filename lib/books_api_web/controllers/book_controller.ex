@@ -68,9 +68,10 @@ defmodule BooksApiWeb.BookController do
   end
 
   def remove_review(conn, %{"review_id" => review_id, "book_id" => book_id}) do
+    user = Guardian.Plug.current_resource(conn)
     review = Library.get_review!(review_id)
 
-    with {:ok, %Book{}} <- Library.delete_review(review, book_id) do
+    with {:ok, %Book{}} <- Library.delete_review(review, book_id, user.id) do
       send_resp(conn, :no_content, "")
     end
   end

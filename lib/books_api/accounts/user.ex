@@ -9,6 +9,7 @@ defmodule BooksApi.Accounts.User do
     field :name, :string
     field :bio, :string
     field :email, :string
+    field :average_rating, :float
     field :encrypted_password, :string
 
     field :password, :string, virtual: true
@@ -23,8 +24,8 @@ defmodule BooksApi.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :bio, :email, :password])
-    |> validate_required([:name, :bio, :email, :password])
+    |> cast(attrs, [:name, :bio, :email, :password, :average_rating])
+    |> validate_required([:name, :bio, :email])
     |> validate_format(:email, ~r/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
     |> validate_length(:password, min: 6)
     |> validate_length(:name, min: 2)

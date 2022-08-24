@@ -3,7 +3,7 @@ defmodule BooksApiWeb.UserView do
 
   alias BooksApiWeb.{BookView, ReviewView}
 
-  @fields [:id, :name, :bio, :email]
+  @fields [:id, :name, :bio, :email, :average_rating]
   @relationships [books_read: BookView, reviews: ReviewView]
 
   def render("user.json", %{user: user, token: token, refresh: refresh_token}) do

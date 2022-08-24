@@ -100,9 +100,9 @@ defmodule BooksApi.Library do
     |> Repo.update()
   end
 
-  def delete_review(%Review{} = review, book_id) do
+  def delete_review(%Review{} = review, book_id, user_id) do
     Repo.delete!(review)
-    update_ratings(book_id)
+    update_ratings(book_id, user_id)
   end
 
   def change_review(%Review{} = review, attrs \\ %{}) do
@@ -115,19 +115,22 @@ defmodule BooksApi.Library do
          |> Map.put("user_id", user_id)
          |> Library.create_review() do
       {:ok, _review} ->
-        update_ratings(book_id)
+        update_ratings(book_id, user_id)
 
       {:error, error} ->
         {:error, error}
     end
   end
 
-  defp update_ratings(book_id) do
+  defp update_ratings(book_id, user_id) do
     book = get_book!(book_id)
+    user = Accounts.get_user!(user_id)
 
-    ratings = Enum.map(book.reviews, fn %{rating: rating} -> rating end)
+    book_ratings = Enum.map(book.reviews, fn %{rating: rating} -> rating end)
+    user_ratings = Enum.map(user.reviews, fn %{rating: rating} -> rating end)
 
-    update_book(book, %{rating: get_average(ratings)})
+    Accounts.update_user(user, %{average_rating: get_average(user_ratings)})
+    update_book(book, %{rating: get_average(book_ratings)})
   end
 
   defp get_average([]), do: nil
