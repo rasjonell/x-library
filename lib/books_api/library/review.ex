@@ -3,7 +3,7 @@ defmodule BooksApi.Library.Review do
   import Ecto.Changeset
 
   alias BooksApi.Library.Book
-  alias BooksAPi.Accounts.User
+  alias BooksApi.Accounts.User
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

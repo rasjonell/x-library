@@ -86,7 +86,11 @@ defmodule BooksApi.Library do
     |> Map.get(:reviews)
   end
 
-  def get_review!(id), do: Repo.get!(Review, id)
+  def get_review!(id) do
+    Review
+    |> Repo.get!(id)
+    |> Repo.preload([:user, :book])
+  end
 
   def create_review(attrs \\ %{}) do
     %Review{}
