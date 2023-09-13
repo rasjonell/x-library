@@ -4,6 +4,7 @@ Self-Hosted, Open, and Editable Library Management Platform
 
 ![Banner Photo](./x-library.png)
 
+_Check out the cross-platform mobile client for this API: [X-Library Mobile](https://github.com/rasjonell/x-library-mobile)_
 
 # Ideas To Implement Next
 
